@@ -1,8 +1,11 @@
 import com.bfd.etl.util.IPParserUtil;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+
 
 /**
  * @ClassName IpTest
@@ -14,12 +17,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class IpTest {
     public static void main(String[] args) {
         IPParserUtil test = new IPParserUtil();
-        System.out.println(new IPParserUtil().parserIp("122.160.214.143"));
+//        System.out.println(new IPParserUtil().parserIp("122.160.214.143"));
 
-        List<String> list = test.getAllIp();
-        // 此处运行到最后会报数组越界的异常
-        for(String ip : list) {
-            System.out.println(test.parserIp(ip));
+        List<String> ips = test.getAllIp();
+//        //TODO 此处运行到最后会报数组越界的异常
+//        for(String ip : ips) {
+//            System.out.println(test.parserIp(ip));
+//        }
+        for (String ip : ips){
+            System.out.println("ip: " + ip +"\t" +  test.parserIPByTB("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip, "utf-8"));
         }
+
     }
 }
