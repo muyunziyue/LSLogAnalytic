@@ -20,13 +20,13 @@ public class IpTest {
 //        System.out.println(new IPParserUtil().parserIp("122.160.214.143"));
 
         List<String> ips = test.getAllIp();
-//        //TODO 此处运行到最后会报数组越界的异常
-//        for(String ip : ips) {
-//            System.out.println(test.parserIp(ip));
-//        }
-        for (String ip : ips){
-            System.out.println("ip: " + ip +"\t" +  test.parserIPByTB("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip, "utf-8"));
+        //TODO 此处运行到最后会报数组越界的异常
+        for(String ip : ips) {
+            System.out.println(test.parserIp(ip));
         }
+//        for (String ip : ips){
+//            System.out.println("ip: " + ip +"\t" +  test.parserIPByTB("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip, "utf-8"));
+//        }
 
     }
 }

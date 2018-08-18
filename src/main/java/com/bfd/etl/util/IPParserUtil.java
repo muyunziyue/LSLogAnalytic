@@ -125,7 +125,7 @@ public class IPParserUtil extends IPSeeker {
                         index = sub.indexOf("区");
                         if (index > 0) {
                             char ch = sub.charAt(index - 1);
-                            if (ch != '小' || ch != '军' || ch != '校') {
+                            if (ch != '小' && ch != '军' && ch != '校') {
                                 info.setCity(sub.substring(0, index + 1));
                             }
                         }
