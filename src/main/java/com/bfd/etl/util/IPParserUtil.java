@@ -23,7 +23,11 @@ public class IPParserUtil extends IPSeeker {
 
     RegionInfo info = new RegionInfo();
 
-    // 使用淘宝的ip解析库解析ip
+    /**
+     * 使用淘宝的ip解析库解析ip
+     *
+     */
+
     public RegionInfo parserIPByTB(String url, String charset) {
         if (url.isEmpty() || !url.startsWith("http")) {
             logger.warn("url的格式不正确");
@@ -33,17 +37,19 @@ public class IPParserUtil extends IPSeeker {
         HttpClient client = new HttpClient();
         GetMethod method = new GetMethod(url);
         // 设置请求的编码方式
-        if(null != charset) {
+        if (null != charset) {
             method.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=" + charset);
-        }else {
+        } else {
             method.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=" + "utf-8");
         }
 
         try {
+            // 发送请求
             int statusCode = client.executeMethod(method);
-            if (statusCode != HttpStatus.SC_OK){
+            if (statusCode != HttpStatus.SC_OK) {
                 logger.warn("Method failed: " + method.getStatusLine());
             }
+            // 返回响应体
             byte[] responseBody = method.getResponseBody();
             String response = new String(responseBody, "utf-8"); // 获取到json格式的响应
             JSONObject json = JSONObject.parseObject(response);

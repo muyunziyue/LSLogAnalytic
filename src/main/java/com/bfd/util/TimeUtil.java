@@ -1,5 +1,6 @@
 package com.bfd.util;
 
+import com.bfd.common.DateEnum;
 import org.apache.commons.lang.StringUtils;
 
 import java.text.ParseException;
@@ -120,13 +121,64 @@ public class TimeUtil {
         return dt.getTime();
     }
 
+    /**
+     * 根据时间戳和type来获取相对应的值
+     * @param time
+     * @param type
+     * @return
+     */
+    public static int getDateInfo(Long time, DateEnum type) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        if(DateEnum.YEAR.equals(type)){
+            return calendar.get(Calendar.YEAR);
+        }
+        if(DateEnum.SEASON.equals(type)){
+            int month = calendar.get(Calendar.MONTH) + 1;
+            // 123  1  ； 456  2 ； 789 3 ；10,11，12 4
+            if (month % 3 == 0){
+                return month / 3;
+            }
+            return month / 3 + 1;
+        }
 
-//    public static void main(String[] args) {
-//        System.out.println(getYesterday("yyyy/MM/dd"));
-//        System.out.println(getYesterday());
-//        System.out.println(isValidDate("2018-06-32"));
-//        System.out.println(parseString2long("2018-07-05"));
-//        System.out.println(parseLong2String(1530720000000l));
-//    }
+        if(DateEnum.MONTH.equals(type)){
+            int month = calendar.get(Calendar.MONTH) + 1;
+            return month;
+        }
+
+        if(DateEnum.WEEK.equals(type)){
+            return calendar.get(Calendar.WEEK_OF_YEAR);
+        }
+
+        if(DateEnum.DAY.equals(type)){
+            return calendar.get(Calendar.DAY_OF_MONTH);
+        }
+
+        if(DateEnum.HOUR.equals(type)){
+            return calendar.get(Calendar.HOUR_OF_DAY);
+        }
+        throw new RuntimeException("该类型暂不支持时间信息获取.type:"+type.typeName);
+    }
+
+    public static long getFirstDayOfWeek(Long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        calendar.set(Calendar.DAY_OF_WEEK,1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        return calendar.getTimeInMillis();
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(getYesterday("yyyy/MM/dd"));
+        System.out.println(getYesterday());
+        System.out.println(isValidDate("2018-06-32"));
+        System.out.println(parseString2long("2018-08-17"));
+        System.out.println(parseLong2String(1530720000000l));
+    }
 
 }

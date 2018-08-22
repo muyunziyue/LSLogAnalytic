@@ -40,7 +40,7 @@ public class ToHbaseMapper extends Mapper<Object, Text, NullWritable, Put> {
         // 正常调动日志工具方法进行解析
         Map<String, String> info = LogUtil.handleLog(log);
         // 根据事件来存储数据
-        String eventName = info.getOrDefault(EventLogConstants.EVENT_COLUMN_NAME_EVENT_NAME,"unknow");
+        String eventName = info.getOrDefault(EventLogConstants.EVENT_COLUMN_NAME_EVENT_NAME, "unknow");
         //TODO 此处逻辑是否有错误,如果获取到的事件类型不在预设的六种之类就会返回null, 导致后面的switch(null)报一个空指针异常
         EventLogConstants.EventEnum event = EventLogConstants.EventEnum.valueOfAlias(eventName);
         switch (event) {
@@ -83,14 +83,15 @@ public class ToHbaseMapper extends Mapper<Object, Text, NullWritable, Put> {
                         if (StringUtils.isNotEmpty(entry.getKey())) {
                             // 将kv添加到put中
                             put.addColumn(family, Bytes.toBytes(entry.getKey()), Bytes.toBytes(entry.getValue()));
-                            context.write(NullWritable.get(), put);
-                            outputRecords++;
-
-                        } else {
-                            this.filterRecords++;
                         }
                     }
+                    context.write(NullWritable.get(), put);
+                    outputRecords++;
+
+                } else {
+                    this.filterRecords++;
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -115,10 +116,10 @@ public class ToHbaseMapper extends Mapper<Object, Text, NullWritable, Put> {
                 this.crc.update(uuid.getBytes());
             }
             if (StringUtils.isNotEmpty(umid)) {
-                this.crc.update(uuid.getBytes());
+                this.crc.update(umid.getBytes());
             }
             if (StringUtils.isNotEmpty(eventName)) {
-                this.crc.update(uuid.getBytes());
+                this.crc.update(eventName.getBytes());
             }
 
             sb.append(this.crc.getValue() % 1000000000L);

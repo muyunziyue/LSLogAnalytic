@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--?kpi??????sql????????-->
+<configuration>
+
+    <property>
+        <name>writer_new_user</name>
+        <value>com.bfd.analystic.mr.nu.NewUserWriter</value>
+    </property>
+
+    <property>
+        <name>writer_browser_new_install_user</name>
+        <value>com.bfd.anlystic.mr.nu.BrowserNewUserWriter</value>
+    </property>
+
+</configuration>
